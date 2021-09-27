@@ -9,7 +9,9 @@ export default function App() {
       <button
         onClick={undo}
       >undo</button>
-      <button>redo</button>
+      <button
+        onClick={redo}
+      >redo</button>
       <input
         type="color"
         value={current}

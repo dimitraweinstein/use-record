@@ -21,12 +21,14 @@ export const useRecord = (initialColor) => {
       setCurrentIndex(prevIndex => prevIndex - 1);
     }
   };
-  const redo = () => { };
-
-  useEffect(() => {
-    // console.log(history, 'history');
-    setHistory((previousHistory) => [...previousHistory, current]);
-  }, [current]);
+  const redo = () => {
+    const previousHistory = history.slice();
+    if (currentIndex < (previousHistory.length - 1)) {
+      const target = history[ currentIndex + 1 ];
+      setCurrent(target);
+      setCurrentIndex(prevIndex => prevIndex + 1);
+    }
+  };
 
   return { current, undo, redo, record };
 };
