@@ -1,25 +1,31 @@
 import { useEffect, useState } from 'react';
 
-export const useRecord = (initialColor = '#FF0000') => {
+export const useRecord = (initialColor) => {
   const [current, setCurrent] = useState(initialColor);
-  const [ history, setHistory ] = useState([]);
-  const [ newColor, setNewColor ] = useState();
+  const [history, setHistory] = useState([initialColor]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const record = (brandNewColor) => {
-    console.log(brandNewColor);
+    // console.log(brandNewColor, 'new color');
+    const Index = currentIndex + 1;
+    history.splice(Index, 0, brandNewColor);
+    setCurrentIndex(Index);
+    setCurrent(brandNewColor);
+    setHistory(history);
   };
 
   const undo = () => {
-    const currentIndex = history.indexOf(current);
-    const targetIndex = currentIndex !== 0 ? currentIndex - 1 : 0;
-    setHistory(history[targetIndex]);
+    if (currentIndex > 0) {
+      const previousColor = history[ currentIndex - 1 ];
+      setCurrent(previousColor);
+      setCurrentIndex(prevIndex => prevIndex - 1);
+    }
   };
   const redo = () => { };
 
   useEffect(() => {
-    console.log(history);
+    // console.log(history, 'history');
     setHistory((previousHistory) => [...previousHistory, current]);
-    console.log(history);
   }, [current]);
 
   return { current, undo, redo, record };
